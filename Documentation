@@ -1,0 +1,72 @@
+**CNC Milling Performance Analysis and Fault Detection**
+
+### **1. Project Overview**
+This project focuses on analyzing CNC milling operations and building a deep learning-based predictive maintenance model.
+The goal is to classify tool wear, clamping pressure issues, and machining completion status using time-series sensor data collected from CNC experiments.
+
+### **2. Business Use Cases**
+- **Predictive Maintenance**: Identify tool wear conditions to schedule timely replacements and reduce downtime.
+- **Quality Assurance**: Detect insufficient clamping pressure to prevent defects in machined parts.
+- **Process Optimization**: Ensure machining completes successfully, minimizing material waste and operational costs.
+- **Operational Safety**: Monitor CNC parameters to detect unsafe machining conditions.
+
+### **3. Dataset Description**
+- **train.csv**: Summary of 18 experiments with experiment-level features.
+- **experiment_01.csv to experiment_18.csv**: Time-series sensor data sampled every 100ms.
+- **Merged Dataset (merged1.csv)**: Preprocessed dataset combining both experiment-level and time-series features.
+
+#### **Key Features:**
+- **Material**: Type of material used (Wax or Other).
+- **Feed Rate**: Relative velocity of the cutting tool along the workpiece (mm/s).
+- **Clamp Pressure**: Pressure used to hold the workpiece in the vise (bar).
+- **Time-Series Data**: Position, velocity, acceleration, current, voltage, power, and other motor performance metrics.
+
+#### **Target Variables:**
+1. **Tool Condition** (Worn/Unworn)
+2. **Machining Finalized** (Completed/Not Completed)
+3. **Passed Visual Inspection** (Passed/Failed)
+
+### **4. Data Preprocessing & Feature Engineering**
+- Extracted mean values of time-series features for each experiment.
+- Normalized numerical features using MinMaxScaler.
+- Aggregated features per experiment to match target labels.
+
+### **5. Deep Learning Model (LSTM Architecture)**
+A single LSTM model is trained with three outputs to predict:
+1. **Tool Wear**: Binary classification of tool condition.
+2. **Machining Completion**: Whether machining finished successfully.
+3. **Visual Inspection Pass Rate**: Whether the part passed inspection.
+
+#### **Model Architecture:**
+- **Input Layer**: (1 timestep, 16 features)
+- **Shared LSTM Layers**: Extract sequential dependencies.
+- **Three Separate Dense Layers**: One for each classification task.
+- **Activation Functions**: Sigmoid (Binary Classification)
+
+### **6. Model Training & Evaluation**
+- **Train-Test Split**: 80% training, 20% testing.
+- **Loss Function**: Binary Crossentropy for each output.
+- **Optimizer**: Adam.
+- **Evaluation Metrics**: Accuracy for each task.
+
+### **7. Deployment using Streamlit**
+A web-based Streamlit application allows users to:
+1. **Upload an Experiment CSV File**.
+2. **Manually Input Feed Rate, Clamp Pressure, and Material Type**.
+3. **Predict Tool Wear, Machining Completion, and Visual Inspection Status**.
+
+### **8. Project Deliverables**
+- **Preprocessed Dataset (`merged1.csv`)**
+- **Trained Multi-Output LSTM Model (`multi_output_lstm_v2.h5`)**
+- **Streamlit Web Application (`app.py`)**
+- **Project Documentation**
+
+### **9. Future Enhancements**
+- Improve accuracy by using additional time-series feature extraction methods.
+- Explore different deep learning architectures like Transformer models.
+- Deploy the model on AWS for real-time CNC monitoring.
+
+### **10. Conclusion**
+This project provides a robust predictive maintenance solution for CNC machining,
+reducing downtime, improving quality, and optimizing manufacturing processes.
+
