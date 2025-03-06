@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import base64
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
@@ -8,6 +9,25 @@ from sklearn.preprocessing import MinMaxScaler
 # Load trained LSTM model
 model = load_model("CNC1.h5")
 
+def add_bg_from_local(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
+    
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{encoded_string}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+add_bg_from_local("CNC.jpg")
 # Define numerical columns used during training
 numerical_cols = [
     "X1_ActualVelocity", "X1_ActualAcceleration", "X1_OutputPower",
