@@ -4,11 +4,12 @@ import numpy as np
 import base64
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import ReLU
+#from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.layers import ReLU
 
 # Load trained LSTM model
-model = load_model("CNC1 (1).h5")
+model = tf.keras.models.load_model("CNC1 (1).h5")
 
 def add_bg_from_local(image_path):
     with open(image_path, "rb") as image_file:
