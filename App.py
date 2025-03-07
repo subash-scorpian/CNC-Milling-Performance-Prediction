@@ -5,11 +5,16 @@ import base64
 import tensorflow as tf
 import joblib
 from tensorflow.keras.models import load_model
+#from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.layers import ReLU
+
+
 
 # Load trained LSTM model and scaler
 model = load_model("CNC_LSTM_model.h5")
 scaler = joblib.load("scaler.pkl")
+
 
 # Function to add background image
 def add_bg_from_local(image_path):
@@ -88,3 +93,4 @@ if uploaded_file is not None:
         st.write(f"🛠 **Tool Condition:** {tool_condition}")
         st.write(f"⚙ **Machining Finalized:** {machining_finalized}")
         st.write(f"🔎 **Passed Visual Inspection:** {passed_visual_inspection}")
+
