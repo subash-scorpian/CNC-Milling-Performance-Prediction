@@ -10,7 +10,7 @@ Approach:
 1.	Data Understanding: Analyze the structure of train.csv and the time series files.
 2.	Data Preprocessing: Handle missing values and anomalous readings.
 3.	Feature Engineering: Extract statistical, temporal, and frequency-based features.
-4.	Model Development: Train supervised models for classification tasks.
+4.	Model Development: DL Train supervised models for classification tasks.
 5.	Evaluation and Optimization: Evaluate models using appropriate metrics and fine-tune as needed.
 6.	Deployment: Develop a prototype model for real-time predictions.
 Results: 
@@ -18,14 +18,11 @@ Results:
 •	Reliable prediction of machining completion success.
 •	Early detection of inadequate clamping to reduce defective parts.
 Project Evaluation metrics:
-•	Accuracy, Precision, Recall, F1-Score
-•	Area Under the ROC Curve (AUC-ROC)
-•	Confusion Matrix Analysis
 •	Model Execution Time for Real-Time Application
 Technical Tags:
 •	Python, Pandas, NumPy, Scikit-Learn
 •	Time Series Analysis
-•	Machine Learning (Classification)
+•	Deep Learning(Binary Classification)
 •	Predictive Maintenance
 •	CNC Machining Data
 Data Set:
@@ -130,7 +127,8 @@ M1_CURRENT_PROGRAM_NUMBER: number the program is listed under on the CNC
 M1_sequence_number: line of G-code being executed
 M1_CURRENT_FEEDRATE: instantaneous feed rate of spindle
 
-Machining_Process: the current machining stage being performed. Includes preparation, tracing up  and down the "S" curve involving different layers, and repositioning of the spindle as it moves through the air to a certain starting point
+Machining_Process: the current machining stage being performed. Includes preparation, tracing up  and down the "S" curve involving different layers, 
+and repositioning of the spindle as it moves through the air to a certain starting point
 
 Summary
 Model Construction:
