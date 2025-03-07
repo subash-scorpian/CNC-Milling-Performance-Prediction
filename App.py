@@ -4,10 +4,12 @@ import numpy as np
 import base64
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+#from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.layers import ReLU
 
 # Load trained LSTM model
-model = load_model("CNC1.h5")
+model = tf.keras.models.load_model("CNC1 (1).h5")
 
 def add_bg_from_local(image_path):
     with open(image_path, "rb") as image_file:
@@ -92,3 +94,4 @@ if uploaded_file is not None:
         st.write(f"🛠 **Tool Condition:** {tool_condition}")
         st.write(f"⚙ **Machining Finalized:** {machining_finalized}")
         st.write(f"🔎 **Passed Visual Inspection:** {passed_visual_inspection}")
+
