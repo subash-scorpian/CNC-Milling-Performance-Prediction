@@ -131,3 +131,15 @@ M1_sequence_number: line of G-code being executed
 M1_CURRENT_FEEDRATE: instantaneous feed rate of spindle
 
 Machining_Process: the current machining stage being performed. Includes preparation, tracing up  and down the "S" curve involving different layers, and repositioning of the spindle as it moves through the air to a certain starting point
+
+Summary
+Model Construction:
+The code builds a deep learning model using LSTM layers with dropout regularization to process a sequence with one timestep and 16 features.
+
+Multi-output Setup:
+It branches out into three separate dense layers, each predicting a binary outcome (using sigmoid activation) for different tasks.
+
+Compilation and Training:
+The model is compiled with the Adam optimizer and binary crossentropy loss for each output, then trained using a train-test split.
+
+This multi-output architecture is useful when you need to predict multiple related outputs from the same input data, all while sharing the same learned features from the LSTM layers.
