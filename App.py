@@ -3,14 +3,15 @@ import pandas as pd
 import numpy as np
 import base64
 import tensorflow as tf
+import joblib
 from tensorflow.keras.models import load_model
-#from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.layers import ReLU
 
-# Load trained LSTM model
-model = tf.keras.models.load_model("CNC1 (1).h5")
+# Load trained LSTM model and scaler
+model = load_model("CNC_LSTM_model.h5")
+scaler = joblib.load("scaler.pkl")
 
+# Function to add background image
 def add_bg_from_local(image_path):
     with open(image_path, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode()
@@ -30,6 +31,7 @@ def add_bg_from_local(image_path):
     )
 
 add_bg_from_local("CNC.jpg")
+
 # Define numerical columns used during training
 numerical_cols = [
     "X1_ActualVelocity", "X1_ActualAcceleration", "X1_OutputPower",
@@ -43,17 +45,10 @@ numerical_cols = [
 st.title("🔧 CNC Milling Performance Prediction")
 st.write("Upload an experiment CSV file to predict Tool Condition, Machining Finalized, and Passed Visual Inspection.")
 
-# Feature descriptions
-st.markdown("### Feature Descriptions:")
-st.markdown("- **Material:** Wax (Used for machining experiments)")
-st.markdown("- **Feed Rate:** Relative velocity of the cutting tool along the workpiece (mm/s)")
-st.markdown("- **Clamp Pressure:** Pressure used to hold the workpiece in the vise (bar)")
 # User inputs
 feedrate = st.number_input("Enter Feed Rate (mm/s):", min_value=0.0, step=0.1)
 clamp_pressure = st.number_input("Enter Clamp Pressure (bar):", min_value=0.0, step=0.1)
 material = st.selectbox("Select Material:", ["Wax", "Other"])
-
-# Encode material (e.g., Wax=1, Other=0)
 material_encoded = 1 if material == "Wax" else 0
 
 # File uploader
@@ -71,23 +66,22 @@ if uploaded_file is not None:
         # Extract mean values for each feature
         df_mean = df[numerical_cols].mean().to_frame().T
         
-        # Add manual inputs to features
+        # Add manual inputs
         df_mean["feedrate"] = feedrate
         df_mean["clamp_pressure"] = clamp_pressure
         df_mean["material"] = material_encoded
         
-        # Normalize using MinMaxScaler
-        scaler = MinMaxScaler()
-        df_mean_scaled = scaler.fit_transform(df_mean)
+        # Normalize using saved MinMaxScaler
+        df_mean_scaled = scaler.transform(df_mean)
         
-        # Reshape for LSTM input (samples, timesteps, features)
+        # Reshape for LSTM input
         X = df_mean_scaled.reshape(1, 1, df_mean.shape[1])
         
         # Make predictions
         predictions = model.predict(X)
         tool_condition = "Worn" if predictions[0][0] > 0.5 else "Unworn"
-        machining_finalized = "Completed" if predictions[1][0] > 0.5 else "Not Completed"
-        passed_visual_inspection = "Passed" if predictions[2][0] > 0.5 else "Failed"
+        machining_finalized = "Completed" if predictions[0][1] > 0.5 else "Not Completed"
+        passed_visual_inspection = "Passed" if predictions[0][2] > 0.5 else "Failed"
         
         # Display results
         st.subheader("🔍 Prediction Results:")
