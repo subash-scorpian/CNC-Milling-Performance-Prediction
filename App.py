@@ -4,6 +4,7 @@ import numpy as np
 import base64
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import ReLU
 from sklearn.preprocessing import MinMaxScaler
 
 # Load trained LSTM model
