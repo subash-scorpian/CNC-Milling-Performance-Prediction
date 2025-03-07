@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 
 # Load trained LSTM model
-model = load_model("CNC1.h5")
+model = load_model("CNC1 (1).h5")
 
 def add_bg_from_local(image_path):
     with open(image_path, "rb") as image_file:
