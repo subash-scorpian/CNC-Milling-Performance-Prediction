@@ -24,10 +24,10 @@ def set_image_local(image_path):
         unsafe_allow_html=True
     )
 
-set_image_local(r"D:\streamlit\env\CNC.jpg")
+set_image_local("CNC.jpg")
 
 # Load Trained LSTM Model
-lstm_model = load_model("D:\streamlit\env\CNC\cnc_model.h5")  
+lstm_model = load_model("cnc_model.h5")  
 
 # Title
 st.title("CNC Milling Performance Analysis & Fault Detection")
